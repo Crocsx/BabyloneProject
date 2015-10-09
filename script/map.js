@@ -1,5 +1,10 @@
 Map = function(){
-
+	var that = this;
+    _game.scene.registerBeforeRender(function () {
+    	that.create();
+    });
+}
+Map.prototype.create = function () {
 	this.minZ = _game.camera.e.position.z+500;
     this.maxZ = _game.camera.e.position.z+1500;
     this.minX = _game.camera.e.position.x - 100, this.maxX = _game.camera.e.position.x+100;
@@ -21,14 +26,15 @@ Map = function(){
     this.box.position.y = this.box.scaling.y/2;
     this.box.position.z = this.randomZ;
 
-    // action manager
-    this.box.actionManager = new BABYLON.ActionManager(_game.scene);
-
 }
 Map.prototype.randomNumber = function (min, max) {
-    if (min ==max) {
+    if (min == max) {
         return (min);
     }
     var random = Math.random();
     return ((random * (max - min)) + min);
 };
+
+Map.prototype.loop = function () {
+ 	this.create();  
+}
