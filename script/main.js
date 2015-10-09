@@ -19,6 +19,7 @@ var _game;
         this.engine = new BABYLON.Engine(this.canvas, true);
         this.scene = new BABYLON.Scene(this.engine);
         this.camera = new Camera("mainCamera", new BABYLON.Vector3(10, 10, 0), this.scene);
+        this.tool = new Tool();
         this.preload();
     }
 
