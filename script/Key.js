@@ -130,6 +130,15 @@ var Key = {
         if ((this.isDown(Key.D) || this.isDown(Key.RIGHT)))
             axis += 1;
         return axis;
+   },
+
+   getAxisY: function(){
+    var axis = 0;
+    if ((this.isDown(Key.Z) || this.isDown(Key.TOP)))
+        axis += 1;
+    if ((this.isDown(Key.S) || this.isDown(Key.DOWN)))
+        axis -= 1;
+    return axis;
    }
 };
                     
