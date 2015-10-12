@@ -9,3 +9,7 @@ Tool.prototype.degToRad = function (value) {
 Tool.prototype.lerp = function (start, end, percent) {
     return (start + percent * (end - start));
 }
+
+Tool.prototype.randomBeetwen = function(min,max){
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
