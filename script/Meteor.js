@@ -3,8 +3,8 @@ var Meteor = function (startPos, scale) {
     this.e.position = startPos;
     this.rotation = new BABYLON.Vector3(_game.tool.randomBeetwen(1, 5), _game.tool.randomBeetwen(1, 5), _game.tool.randomBeetwen(1, 5));
     this.rotation = this.rotation.scale(0.001);
-    this.speed = new BABYLON.Vector3(_game.tool.randomBeetwen(0, 100), 0, 0);
-
+    this.speed = new BABYLON.Vector3(_game.tool.randomBeetwen(200, 400), 0, 0);
+    this.e.setPhysicsState({ impostor: BABYLON.PhysicsEngine.CylinderImpostor, mass: scale, friction: 0.5, restitution: 0.5 });
     this.e.actionManager = new BABYLON.ActionManager(_game.scene);
     this.e.actionManager.registerAction(new BABYLON.ExecuteCodeAction(
         { trigger: BABYLON.ActionManager.OnIntersectionEnterTrigger, parameter: _game.player.e },
@@ -18,7 +18,6 @@ var Meteor = function (startPos, scale) {
 Meteor.prototype.start = function (scene) {
 
 }
-
 Meteor.prototype.loop = function () {
     this.rotate();
     this.move();

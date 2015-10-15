@@ -7,10 +7,16 @@ var Player = function () {
     this.MOVE_ACCELERATION = new BABYLON.Vector3(0.2, 0.2, 0.2);
     this.MOVE_IDLE_VALUE = new BABYLON.Vector3(0, 0, this.MOVE_SPEED_MIN.z);
 
+    //
+    this.ammo = 3;
+    this.particlesSystem;
+
     //rotation
     this.MAX_ROTATION_AMOUNT = new BABYLON.Vector3(_game.tool.degToRad(25), 0, _game.tool.degToRad(10));
     this.MIN_ROTATION_AMOUNT = new BABYLON.Vector3(_game.tool.degToRad(25), 0, _game.tool.degToRad(0));
     this.speed = new BABYLON.Vector3(0, 0, 0);
+
+    var _this = this;
 }
 
 Player.prototype.init = function (skin, pos, scene) {
@@ -18,10 +24,22 @@ Player.prototype.init = function (skin, pos, scene) {
     this.e.setEnabled(true);
     this.e.renderingGroupId = 1;
     //patch asset
-    this.e.scaling = new BABYLON.Vector3(0.1, 0.1, 0.1);
-    this.e.rotation = new BABYLON.Vector3(0, _game.tool.degToRad(-90), 0);
-    this.MAX_ROTATION_AMOUNT = this.e.rotation.add(this.MAX_ROTATION_AMOUNT);
-    this.MIN_ROTATION_AMOUNT = this.e.rotation.add(this.MIN_ROTATION_AMOUNT.negate());
+    this.e.scaling = new BABYLON.Vector3(0.3, 0.3, 0.3);
+    this.e.rotation = new BABYLON.Vector3(0, _game.tool.degToRad(90), 0);
+    this.MAX_ROTATION_AMOUNT = this.e.rotation.add(this.MAX_ROTATION_AMOUNT.negate());
+    this.MIN_ROTATION_AMOUNT = this.e.rotation.add(this.MIN_ROTATION_AMOUNT);
+
+    this.particleSystem = new BABYLON.ParticleSystem("reacteur", 100, scene);
+    this.particleSystem.minEmitBox = new BABYLON.Vector3(13.5, -0.2, -1);
+    this.particleSystem.maxEmitBox = new BABYLON.Vector3(13.5, -0.2, 1);
+    this.particleSystem.renderingGroupId = 1;
+    this.particleSystem.minLifeTime = 0.3;
+    this.particleSystem.maxLifeTime = 0.3;
+    this.particleSystem.emitRate = 100;
+    this.particleSystem.particleTexture = new BABYLON.Texture("assets/img/blueflame.jpg", scene);
+    this.particleSystem.emitter = this.e;
+    this.particleSystem.start();
+
     scene.registerBeforeRender(this.loop.bind(this));
 }
 
@@ -58,6 +76,16 @@ Player.prototype.deceleration = function () {
 
 Player.prototype.loop = function () {
     this.move();
+    this.shoot();
+}
+
+Player.prototype.shoot = function () {
+    if (Key.isPressed(Key.SPACE)) {
+        if (this.ammo > 0) {
+            this.ammo--;
+            new Bullet(_game.scene);
+        }
+    }
 }
 
 Player.prototype.addMovement = function (axis, toAdd) {
@@ -71,3 +99,6 @@ Player.prototype.addMovement = function (axis, toAdd) {
     return newMove;
 }
 
+Player.prototype.destroy = function () {
+    this.e.dispose();
+}

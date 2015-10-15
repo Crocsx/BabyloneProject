@@ -1,7 +1,8 @@
 var ObstacleGenerator = function () {
     this.obsList = [];
 
-    this.obsTimer = 50; // en milli ssec
+    this.obsAmount = 50;
+    this.obsTimer = 20;
     this.elaspedTime = 0;
 
     this.obsMinDist = new BABYLON.Vector3(-300,0,500);
@@ -20,18 +21,19 @@ ObstacleGenerator.prototype.start = function (scene) {
 }
 
 ObstacleGenerator.prototype.loop = function () {
+    this.updateTime();
     this.updatePosition();
     this.checkSpawn();
     this.checkMeteor();
 }
 
-ObstacleGenerator.prototype.checkSpawn = function () {
+ObstacleGenerator.prototype.updateTime = function () {
     var deltaTime = _game.engine.getDeltaTime();
-    
     this.elaspedTime += deltaTime;
-    if (this.elaspedTime > this.obsTimer) {
+}
+ObstacleGenerator.prototype.checkSpawn = function () {
+    if (this.obsList.length < this.obsAmount && this.elaspedTime > this.obsTimer) {
         this.spawnObstacle();
-        this.elaspedTime = 0;
     }
 }
 

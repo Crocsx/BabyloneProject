@@ -18,6 +18,8 @@ var _game;
         this.canvas.height = window.innerHeight - 16;
         this.engine = new BABYLON.Engine(this.canvas, true);
         this.scene = new BABYLON.Scene(this.engine);
+        this.scene.enablePhysics();
+        this.scene.setGravity(new BABYLON.Vector3(0, 0, 0));
         this.camera = new Camera("mainCamera", new BABYLON.Vector3(10, 10, 0), this.scene);
         this.tool = new Tool();
         this.preload();
@@ -25,9 +27,9 @@ var _game;
 
     Game.prototype.init = function () {
         console.log("Game => Init");
+        _game.manager = new GameManager(this.scene);
         if (this.debug) {
             this.scene.debugLayer.show();
-            ADD_PLACEHOLDER();
         }
     }
 
@@ -37,14 +39,16 @@ var _game;
         this.engine.runRenderLoop(function () {
             _this.scene.render();
         });
+        _game.manager.changeState("Menu");
     }
 
     Game.prototype.preload = function () {
         console.log("Game => Preload");
         var loader = new BABYLON.AssetsManager(_game.scene);
-        var meshTask = loader.addMeshTask("asset", "", "./assets/", "Player.babylon");
+        var meshTask = loader.addMeshTask("asset", "", "./assets/obj/player/", "space_frigate.babylon");
         meshTask.onSuccess = function (task) {
             _game.loadedAssets = {};
+            console.log(task.loadedMeshes)
             for (var i = 0; i < task.loadedMeshes.length; i++) {
                 var mesh = task.loadedMeshes[i];
                 _game.loadedAssets[mesh.name] = mesh;

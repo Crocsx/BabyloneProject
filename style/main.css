@@ -4,3 +4,59 @@ html, body{
     margin:0px;
     padding:0px;
 }
+
+#menu{
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+}
+.menu_button{
+    position: absolute;
+    width: 100px;
+    height: 30px;
+    left: 50%;
+    margin-left: -50px;
+    font-size: 35px;
+    font-family: "tahoma";
+    font-weight: bold;
+    cursor:pointer;
+}
+
+.menu_button#play_button{
+    top: 50%;
+    margin-top: -15px;
+}
+
+/* OVERLAY */
+#overlay{
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+}
+#score{
+    top:0px;
+    right:30px;
+    position:absolute;
+    width:auto;
+    color:white;
+    font-size: 35px;
+    font-family: "tahoma";
+} 
+
+#ammo{
+    top:0px;
+    left:30px;
+    position:absolute;
+    width:auto;
+    color:white;
+    font-size: 35px;
+    font-family: "tahoma";
+} 

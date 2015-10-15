@@ -1,12 +1,11 @@
 var ObstacleGenerator = function () {
     this.obsList = [];
 
-    this.obsAmount = 50;
-    this.obsTimer = 20;
+    this.obsTimer = 100; // en milli ssec
     this.elaspedTime = 0;
 
-    this.obsMinDist = new BABYLON.Vector3(-300,0,500);
-    this.obsMaxDist = new BABYLON.Vector3(300, 0, 1000);
+    this.obsMinDist = new BABYLON.Vector3(-600,0,300);
+    this.obsMaxDist = new BABYLON.Vector3(600, 0, 800);
 
     this.obsMinPosSpawn = new BABYLON.Vector3(_game.player.e.position.x + this.obsMinDist.x, 0, _game.player.e.position.z + this.obsMinDist.z);
     this.obsMaxPosSpawn = new BABYLON.Vector3(_game.player.e.position.x + this.obsMaxDist.x, 0, _game.player.e.position.z + this.obsMaxDist.z);
@@ -21,19 +20,18 @@ ObstacleGenerator.prototype.start = function (scene) {
 }
 
 ObstacleGenerator.prototype.loop = function () {
-    this.updateTime();
     this.updatePosition();
     this.checkSpawn();
     this.checkMeteor();
 }
 
-ObstacleGenerator.prototype.updateTime = function () {
-    var deltaTime = _game.engine.getDeltaTime();
-    this.elaspedTime += deltaTime;
-}
 ObstacleGenerator.prototype.checkSpawn = function () {
-    if (this.obsList.length < this.obsAmount && this.elaspedTime > this.obsTimer) {
+    var deltaTime = _game.engine.getDeltaTime();
+    
+    this.elaspedTime += deltaTime;
+    if (this.elaspedTime > this.obsTimer) {
         this.spawnObstacle();
+        this.elaspedTime = 0;
     }
 }
 
@@ -59,5 +57,13 @@ ObstacleGenerator.prototype.checkMeteor = function () {
             this.obsList.splice(i, 1);
             i--;
         }
+    }
+}
+ObstacleGenerator.prototype.destroy = function () {
+    for (var i = 0; i < this.obsList.length; i++) {
+        var meteor = this.obsList[i];
+        meteor.destroy();
+        this.obsList.splice(i, 1);
+        i--;
     }
 }
