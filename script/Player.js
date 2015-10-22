@@ -16,12 +16,10 @@ var Player = function () {
     this.MIN_ROTATION_AMOUNT = new BABYLON.Vector3(_game.tool.degToRad(25), 0, _game.tool.degToRad(0));
     this.speed = new BABYLON.Vector3(0, 0, 0);
 
-    var _this = this;
 }
 
-Player.prototype.init = function (skin, pos, scene) {
+Player.prototype.init = function (skin, scene) {
     this.e = skin;
-    this.e.setEnabled(true);
     this.e.renderingGroupId = 1;
     //patch asset
     this.e.scaling = new BABYLON.Vector3(0.3, 0.3, 0.3);
@@ -39,8 +37,13 @@ Player.prototype.init = function (skin, pos, scene) {
     this.particleSystem.particleTexture = new BABYLON.Texture("assets/img/blueflame.jpg", scene);
     this.particleSystem.emitter = this.e;
     this.particleSystem.start();
+}
 
-    scene.registerBeforeRender(this.loop.bind(this));
+Player.prototype.start = function (pos) {
+    this.e.setEnabled(true);
+    this.e.position = pos;
+    this.loopFunc = this.loop.bind(this);
+    _game.scene.registerBeforeRender(this.loopFunc);
 }
 
 
@@ -99,6 +102,12 @@ Player.prototype.addMovement = function (axis, toAdd) {
     return newMove;
 }
 
+Player.prototype.stop = function () {
+    this.e.setEnabled(false);
+    _game.scene.unregisterBeforeRender(this.loopFunc);
+}
+
 Player.prototype.destroy = function () {
+    this.stop();
     this.e.dispose();
 }

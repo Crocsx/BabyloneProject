@@ -9,7 +9,16 @@ var GameManager = function (scene) {
 
     this.menuDivs = {};
     this.overlayDivs = {};
+    this.init();
     scene.registerBeforeRender(this.loop.bind(this));
+}
+
+GameManager.prototype.init = function () {
+    _game.player = new Player();
+    _game.player.init(_game.loadedAssets["Player"], _game.scene);
+
+    _game.obsGenerator = new ObstacleGenerator();
+
 }
 
 GameManager.prototype.loop = function () {
@@ -35,11 +44,13 @@ GameManager.prototype.changeState = function (value) {
     }
     for (var key in this.status) {
         if (this.status[key] == 1) {
+            console.log("onLeave" + key);
             this["onLeave" + key]();
             this.status[key] = 0;
         }
     }
     this.status[value] = 1;
+    console.log("onEnter" + value);
     this["onEnter"+value]();
 }
 
@@ -63,27 +74,23 @@ GameManager.prototype.onEnterGame = function () {
     this.overlayDivs.score = document.getElementById("score");
     this.overlayDivs.ammo = document.getElementById("ammo");
 
-    _game.player = new Player();
-    _game.player.init(_game.loadedAssets["Player"], new BABYLON.Vector3(0, 2, 0), _game.scene);
+    _game.player.start(new BABYLON.Vector3(0, 2, 0));
     _game.camera.setTarget(_game.player.e);
 
     _game.light = new BABYLON.HemisphericLight("mainLight", new BABYLON.Vector3(0, 5, 0), _game.scene);
     _game.light.parent = _game.player.e;
 
-    _game.obsGenerator = new ObstacleGenerator();
     _game.obsGenerator.start(_game.scene);
-
-    _game.scene.fogMode = BABYLON.Scene.FOGMODE_EXP2;
-    _game.scene.fogDensity = 0.01;
-
-    _game.skybox = createSkybox();
 
     _game.ground = new Ground(_game.scene);
 }
-GameManager.prototype.onLeaveGame = function () {
-    _game.obsGenerator.destroy();
-    _game.player.destroy();
 
+GameManager.prototype.onLeaveGame = function () {
+    _game.obsGenerator.stop();
+    _game.player.stop();
+
+
+    alert("you lose !! score : " +this.score)
     this.overlayDivs.container.style.display = "none";
 }
 

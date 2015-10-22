@@ -15,8 +15,9 @@ var ObstacleGenerator = function () {
 }
 
 
-ObstacleGenerator.prototype.start = function (scene) {
-    scene.registerBeforeRender(this.loop.bind(this));
+ObstacleGenerator.prototype.start = function () {
+    this.loopFunc = this.loop.bind(this);
+    _game.scene.registerBeforeRender(this.loopFunc);
 }
 
 ObstacleGenerator.prototype.loop = function () {
@@ -59,11 +60,17 @@ ObstacleGenerator.prototype.checkMeteor = function () {
         }
     }
 }
-ObstacleGenerator.prototype.destroy = function () {
+
+ObstacleGenerator.prototype.stop = function () {
+    _game.scene.unregisterBeforeRender(this.loopFunc);
     for (var i = 0; i < this.obsList.length; i++) {
         var meteor = this.obsList[i];
         meteor.destroy();
         this.obsList.splice(i, 1);
         i--;
     }
+}
+
+ObstacleGenerator.prototype.destroy = function () {
+    this.stop();
 }

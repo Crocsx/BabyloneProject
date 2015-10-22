@@ -20,7 +20,10 @@ var _game;
         this.scene = new BABYLON.Scene(this.engine);
         this.scene.enablePhysics();
         this.scene.setGravity(new BABYLON.Vector3(0, 0, 0));
+        this.scene.fogMode = BABYLON.Scene.FOGMODE_EXP2;
+        this.scene.fogDensity = 0.01;
         this.camera = new Camera("mainCamera", new BABYLON.Vector3(10, 10, 0), this.scene);
+        this.skybox = createSkybox();
         this.tool = new Tool();
         this.preload();
     }
