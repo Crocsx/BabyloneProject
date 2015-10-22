@@ -94,7 +94,7 @@ position: absolute;
     position:absolute;
     width:auto;
     color: #f5ea11;
-    font-size: 34px;;
+    font-size: 25px;;
     font-family: "tahoma";
 }
 
@@ -112,7 +112,7 @@ position: absolute;
     right:10px;
     position:absolute;
     width:241px;
-    height: 153px;
+    height:153px;
     background-image: url("../assets/img/HUD.png");
     background-position: 10% 90%;
     z-index: 0;
@@ -121,7 +121,7 @@ position: absolute;
     top: 5px;
     left:10px;
     position:absolute;
-    width:241px;
+    width: 241px;
     height: 153px;
     background-image: url('../assets/img/HUD.png');
     background-position: 90% 10%;
