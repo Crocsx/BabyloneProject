@@ -27,8 +27,8 @@ GameManager.prototype.loop = function () {
     }
     if(this.status["Game"] == 1){
         this.score++;
-        this.overlayDivs.score.innerText = "" + this.score;
-        this.overlayDivs.ammo.innerText = "ammo : " + _game.player.ammo;
+        this.overlayDivs.score.innerText = "Score : " + this.score;
+        this.overlayDivs.ammo.innerText = "Ammo : " + _game.player.ammo;
         if (this.score % 2000 == 0) {
             _game.obsGenerator.obsTimer -= 10;
         }
@@ -57,6 +57,7 @@ GameManager.prototype.changeState = function (value) {
 GameManager.prototype.onEnterMenu = function () {
     this.menuDivs.container = document.getElementById("menu");
     this.menuDivs.container.style.display = "block";
+    this.menuDivs.scoreDiv = document.getElementById("best_score").innerText = "Best Score : " + this.getBestScore();
     var _this = this;
     this.menuDivs.playbutton = document.getElementById("play_button").onclick = function () {
         _this.changeState("Game");
@@ -74,27 +75,44 @@ GameManager.prototype.onEnterGame = function () {
     this.overlayDivs.score = document.getElementById("score");
     this.overlayDivs.ammo = document.getElementById("ammo");
 
+    _game.ground = new Ground(_game.scene);
+
     _game.player.start(new BABYLON.Vector3(0, 2, 0));
+    _game.camera.e.position = new BABYLON.Vector3(50, 10, 100)
     _game.camera.setTarget(_game.player.e);
 
     _game.light = new BABYLON.HemisphericLight("mainLight", new BABYLON.Vector3(0, 5, 0), _game.scene);
     _game.light.parent = _game.player.e;
 
     _game.obsGenerator.start(_game.scene);
-
-    _game.ground = new Ground(_game.scene);
 }
 
 GameManager.prototype.onLeaveGame = function () {
     _game.obsGenerator.stop();
     _game.player.stop();
 
-
-    alert("you lose !! score : " +this.score)
+    this.setScore(this.score);
     this.overlayDivs.container.style.display = "none";
 }
 
 GameManager.prototype.onEnterPause = function () {
 
+}
+
+
+GameManager.prototype.getBestScore = function () {
+    var score = sessionStorage.getItem("score");
+    if(!score){
+        score = 0;
+    }
+    return score;
+}
+
+
+GameManager.prototype.setScore = function (newScore) {
+    var score = sessionStorage.getItem("score");
+    if(!score || score < newScore){
+        sessionStorage.setItem("score",newScore)
+    }
 }
 

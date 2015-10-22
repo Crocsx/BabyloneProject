@@ -15,24 +15,3 @@ Camera.prototype.setTarget = function(target){
 Camera.prototype.activateCamera = function (scene) {
     scene.activeCamera = this.e;
 }
-
-
-//a decommenté pour avoir une free cam
-/*
-var Camera = function (name, pos, scene) {
-    this.e = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(0, 5, 0), scene);
-    scene.registerBeforeRender(this.loop.bind(this));
-}
-
-Camera.prototype.setTarget = function (target) {
-    this.target = target;
-}
-
-Camera.prototype.activateCamera = function (scene) {
-    scene.activeCamera = this.e;
-}
-
-Camera.prototype.loop = function () {
-    this.e.setTarget(this.target.position);
-}
-*/
