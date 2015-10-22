@@ -1,5 +1,6 @@
 var Meteor = function (startPos, scale) {
-    this.e = BABYLON.Mesh.CreateSphere("sphere", 5,scale, _game.scene);
+    this.e = BABYLON.Mesh.CreateSphere("sphere", 5, scale, _game.scene);
+    this.e.meteor = this;
     this.e.position = startPos;
     BABYLON.Tags.AddTagsTo(this.e, "meteor");
     this.rotation = new BABYLON.Vector3(_game.tool.randomBeetwen(1, 5), _game.tool.randomBeetwen(1, 5), _game.tool.randomBeetwen(1, 5));
@@ -13,8 +14,8 @@ var Meteor = function (startPos, scale) {
       ));
     this.e.renderingGroupId = 1;
 
-    this.EXPLOSION_RANGE = 100;
-    this.EXPLOSIONG_FORCE = new BABYLON.Vector3(1, 0,1);
+    this.EXPLOSION_RANGE = 10000;
+    this.EXPLOSIONG_FORCE = new BABYLON.Vector3(1, 0, 1);
 
     this.loopFunc = this.loop.bind(this)
     _game.scene.registerBeforeRender(this.loopFunc);
@@ -44,18 +45,22 @@ Meteor.prototype.explode = function () {
     var _this = this;
     var mToExplode = {};
     var i = 0;
-    meteroes.forEach(function (m) {
+    meteors.forEach(function (m) {
         var dist = BABYLON.Vector3.DistanceSquared(m.position, _this.e.position);
-        if (dist < this.EXPLOSION_RANGE) {
-            mToExplode["m" + i] = { "e": m, "d": dist };
+        if (dist < _this.EXPLOSION_RANGE) {
+            var dir = _this.e.position.subtract(m.position).normalize();
+            mToExplode["m" + i] = { "e": m, "dist": dist, "dir": dir};
             i++;
         }
     });
 
     for (var key in mToExplode) {
         var meteor = mToExplode[key];
-        var force = this.EXPLOSIONG_FORCE.multiplyByFloats(dist, dist, dist)
-        meteor.e.applyImpulse(thie.e.position, force);
+        meteor.dist = (meteor.dist / 1000);
+        var force = this.EXPLOSIONG_FORCE.multiply(meteor.dir).multiplyByFloats(meteor.dist, meteor.dist, meteor.dist);
+        force.normalize();
+        force.scaleInPlace(-200);
+        meteor.e.applyImpulse(force,this.e.position);
     }
     this.destroy();
 }

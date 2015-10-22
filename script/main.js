@@ -48,6 +48,7 @@ var _game;
     Game.prototype.preload = function () {
         console.log("Game => Preload");
         var loader = new BABYLON.AssetsManager(_game.scene);
+        loader.addTextureTask("asset", "./assets/img/landingramp.jpg");
         var meshTask = loader.addMeshTask("asset", "", "./assets/obj/player/", "space_frigate.babylon");
         meshTask.onSuccess = function (task) {
             _game.loadedAssets = {};

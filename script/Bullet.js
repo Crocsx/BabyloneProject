@@ -15,14 +15,15 @@ Bullet.prototype.loop = function () {
     var meteors = _game.scene.getMeshesByTags("meteor");
     var _this = this;
     meteors.forEach(function (m) {
-        if (m.intersectMesh(_this)) {
-            this.destroy();
-            m.explode();
+        
+        if (m.intersectsMesh(_this.e)) {
+            _this.destroy();
+            m.meteor.explode();
         }
     });
 }
 
-Meteor.prototype.destroy = function () {
+Bullet.prototype.destroy = function () {
     _game.scene.unregisterBeforeRender(this.loopFunc);
     this.e.dispose();
 }
