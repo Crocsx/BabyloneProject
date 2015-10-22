@@ -14,7 +14,7 @@ html, body{
     top: 0;
     left: 0;
 }
-.menu_button{
+/*.menu_button{
     position: absolute;
     width: 100px;
     height: 30px;
@@ -30,8 +30,46 @@ html, body{
 .menu_button#play_button{
     top: 50%;
     margin-top: -15px;
+}*/
+
+.menu_button{
+  position: absolute;
+  width: 110px;
+  height: 65px;
+  left: 50%;
+  margin-left: -50px;
+  background: #1109eb;
+  background-image: -webkit-linear-gradient(top, #1109eb, #d5d7d9);
+  background-image: -moz-linear-gradient(top, #1109eb, #d5d7d9);
+  background-image: -ms-linear-gradient(top, #1109eb, #d5d7d9);
+  background-image: -o-linear-gradient(top, #1109eb, #d5d7d9);
+  background-image: linear-gradient(to bottom, #1109eb, #d5d7d9);
+  -webkit-border-radius: 26;
+  -moz-border-radius: 26;
+  border-radius: 26px;
+  -webkit-box-shadow: 5px 7px 13px #002bff;
+  -moz-box-shadow: 5px 7px 13px #002bff;
+  box-shadow: 5px 7px 13px #002bff;
+  font-family: tahoma;
+  color: #1f0b1f;
+  font-size: 45px;
+  padding: 30px 25px 15px 25px;
+  text-decoration: none;
+  cursor:pointer;
 }
 
+.menu_button#play_button{
+position: absolute;
+  top: 55%;
+  margin-top: -15px;
+  background: #0c5887;
+  background-image: -webkit-linear-gradient(top, #0c5887, #3498db);
+  background-image: -moz-linear-gradient(top, #0c5887, #3498db);
+  background-image: -ms-linear-gradient(top, #0c5887, #3498db);
+  background-image: -o-linear-gradient(top, #0c5887, #3498db);
+  background-image: linear-gradient(to bottom, #0c5887, #3498db);
+  text-decoration: none;
+}
 /* OVERLAY */
 #overlay{
     display: none;
@@ -47,17 +85,17 @@ html, body{
     right:30px;
     position:absolute;
     width:auto;
-    color:white;
-    font-size: 35px;
+    color: #f5ea11;
+    font-size: 54px;;
     font-family: "tahoma";
-} 
+}
 
 #ammo{
     top:0px;
     left:30px;
     position:absolute;
     width:auto;
-    color:white;
+    color:red;
     font-size: 35px;
     font-family: "tahoma";
 } 
