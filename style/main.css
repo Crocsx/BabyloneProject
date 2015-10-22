@@ -81,21 +81,41 @@ position: absolute;
     left: 0;
 }
 #score{
-    top:0px;
-    right:30px;
+    top:50px;
+    right:50px;
     position:absolute;
     width:auto;
     color: #f5ea11;
-    font-size: 54px;;
+    font-size: 34px;;
     font-family: "tahoma";
 }
 
 #ammo{
-    top:0px;
-    left:30px;
+    top:50px;
+    left:45px;
     position:absolute;
     width:auto;
     color:red;
     font-size: 35px;
     font-family: "tahoma";
-} 
+}
+#hudRight{
+    top:5px;
+    right:10px;
+    position:absolute;
+    width:241px;
+    height: 153px;
+    background-image: url("../assets/img/HUD.png");
+    background-position: 10% 90%;
+    z-index: 0;
+}
+#hudLeft{
+    top: 5px;
+    left:10px;
+    position:absolute;
+    width:241px;
+    height: 153px;
+    background-image: url('../assets/img/HUD.png');
+    background-position: 90% 10%;
+    z-index: 0;
+}
