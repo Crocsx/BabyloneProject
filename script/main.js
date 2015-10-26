@@ -8,7 +8,7 @@ var _game;
 
 
     var Game = function () {
-        this.debug = 1;
+        this.debug = 0;
     }
 
     Game.prototype.preInit = function () {

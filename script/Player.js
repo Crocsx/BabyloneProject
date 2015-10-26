@@ -42,6 +42,7 @@ Player.prototype.init = function (skin, scene) {
 Player.prototype.start = function (pos) {
     this.e.setEnabled(true);
     this.e.position = pos;
+    this.ammo = 3;
     this.loopFunc = this.loop.bind(this);
     _game.scene.registerBeforeRender(this.loopFunc);
 }
